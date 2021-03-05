@@ -1,0 +1,58 @@
+app:
+  version : '@project.version@'
+
+server:
+  port: 8080
+  servlet:
+    context-path: /smartwatch
+
+spring:
+    datasource:
+          url: jdbc:mysql://database-1.cvxoqtxdbzek.us-east-2.rds.amazonaws.com:3306/smartwatch?useSSL=false
+          username: admin
+          password: admin123
+#          url: jdbc:mysql://localhost:3306/smartwatch?autoReconnect=true
+#          username: root
+#          password: root
+          hikari:
+            connectionTimeout: 20000
+            maximumPoolSize: 5
+    jpa:
+      database-platform: org.hibernate.dialect.MySQL5Dialect
+      hibernate:
+        ddl-auto: validate
+        #ddl-auto: create
+        generate-ddl: true
+    mail:
+      host: smtp.gmail.com
+      username: poojadas04kv@gmail.com
+      port: 587
+      password: poojadas07@
+      properties:
+        mail:
+          smtp:
+            auth: true
+            connectiontimeout: 5000
+            starttls:
+              enable: true
+            timeout: 5000
+            writetimeout: 5000
+
+
+
+s3:
+  bucket: dropone
+  access-key: 'AKIAJETCUQA6E3V6M2SA'
+  secret-key: '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'
+  endpoint: s3-ap-south-1.amazonaws.com
+  location-constraint: ap-south-1
+  baseFolder: drops
+
+timeZone: "Asia/Kolkata"
+
+passwordResetMail:
+  body: 'To complete the password reset process, please click here: '
+
+configKeys:
+  versionKey: 'MINIMUM_REQUIRED_VERSION'
+
