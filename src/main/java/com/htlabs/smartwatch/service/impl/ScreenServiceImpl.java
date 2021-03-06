@@ -1,16 +1,15 @@
 package com.htlabs.smartwatch.service.impl;
 
 import com.htlabs.smartwatch.dto.ScreenDTO;
-import com.htlabs.smartwatch.entity.Country;
-import com.htlabs.smartwatch.entity.Department;
-import com.htlabs.smartwatch.entity.RegionDetails;
-import com.htlabs.smartwatch.entity.ScreenDetails;
+import com.htlabs.smartwatch.entity.*;
 import com.htlabs.smartwatch.entity.converter.RegionConverter;
 import com.htlabs.smartwatch.entity.converter.ScreenConverter;
 import com.htlabs.smartwatch.repository.DepartmentRepository;
+import com.htlabs.smartwatch.repository.PanelRepository;
 import com.htlabs.smartwatch.repository.ScreenRepository;
 import com.htlabs.smartwatch.service.ScreenService;
 import com.htlabs.smartwatch.utils.ErrorMessages;
+import javafx.stage.Screen;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,8 +30,11 @@ public class ScreenServiceImpl implements ScreenService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
+    @Autowired
+    private PanelRepository panelRepository;
+
     @Override
-    public void createScreen(String screenName, String departmentName) {
+    public void createScreen(String screenName, String departmentName, Integer rowNo, Integer colNo) {
         String departmentId = departmentRepository.findByDepartmentName(departmentName);
         Department department = departmentRepository.findById(departmentId).orElse(null);
         if(department == null){
@@ -43,15 +45,44 @@ public class ScreenServiceImpl implements ScreenService {
         if (screenname == null){
             log.info("Creating Screen:  {}", screenName);
             String screenId = UUID.randomUUID().toString();
-            ScreenDetails screen = new ScreenDetails(screenId , screenName);
+            ScreenDetails screen = new ScreenDetails(screenId , screenName, rowNo, colNo);
             screen.setDepartment(department);
             screen.setCreatedAt(new Date());
             screen.setUpdatedAt(new Date());
             screenRepository.save(screen);
+
+            createPanel(screenId , rowNo , colNo);
         }
         else{
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.SCREEN_EXIST);
         }
+
+    }
+
+    private void createPanel(String screenId, Integer rowNo, Integer colNo) {
+        log.info("Creating Panel ");
+
+        ScreenDetails screenDetails = screenRepository.findById(screenId).orElse(null);
+        if(screenDetails == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_SCREEN);
+        }
+
+        for (int i = 0 ; i < rowNo; i++){
+            for (int j = 0; j < colNo; j++){
+                String panelId = UUID.randomUUID().toString();
+                String panelName = "Panel";
+                Panel panel = new Panel();
+                panel.setPanelId(panelId);
+                panel.setPanelName(panelName);
+                panel.setRowNo(i);
+                panel.setColumnNo(j);
+                panel.setScreen(screenDetails);
+                panel.setCreatedAt(new Date());
+                panel.setUpdatedAt(new Date());
+                panelRepository.save(panel);
+            }
+        }
+
     }
 
     @Override
