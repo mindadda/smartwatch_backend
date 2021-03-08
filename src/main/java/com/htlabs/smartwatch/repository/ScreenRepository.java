@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface ScreenRepository extends JpaRepository<ScreenDetails, String> {
 
-    @Query(value = "SELECT * FROM screen WHERE screen_name = :#{#screenName}", nativeQuery = true)
+    @Query(value = "SELECT screen_id FROM screen WHERE screen_name = :#{#screenName}", nativeQuery = true)
     public String findScreenName(String screenName);
 
     @Query(value = "SELECT * FROM screen WHERE screen_name LIKE %:screenName%", nativeQuery = true)
