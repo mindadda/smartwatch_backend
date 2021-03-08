@@ -79,31 +79,6 @@ public class ClientServiceImpl implements ClientService {
 
         }
 
-//        ClientDetails clientDetails=new ClientDetails();
-//
-//        clientDetails=clientDetailRepository.findById(clientId).orElse(null);
-//
-//        if(clientDetails==null) {
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.INVALID_CLIENT);
-//        }
-//        else{
-//
-//            log.info("Updating Client");
-//            if(clientName!=null) {
-//                clientDetailRepository.updateName(clientId, clientName , clientPhone);
-//
-//                return clientName;
-//            }
-//            else {
-//
-//                clientDetailRepository.updateAddress(clientId, clientPhone , clientAddress );
-//
-//                return clientAddress;
-//
-//            }
-//        }
-
-
     }
 
 
