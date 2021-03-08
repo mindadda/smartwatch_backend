@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ScreenService {
     
-    public void createScreen(String screenName, String departmentName);
+    public void createScreen(String screenName, String departmentName, Integer rowNo, Integer colNo);
 
     public void updateScreen(String screenId ,String screenName, String departmentName);
 
