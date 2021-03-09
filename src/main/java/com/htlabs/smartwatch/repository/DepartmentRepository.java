@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department , String> {
 
-    @Query(value = "SELECT * FROM department WHERE department_name LIKE %:departmentName%", nativeQuery = true)
+    @Query(value = "SELECT department_name FROM department WHERE department_name LIKE %:departmentName%", nativeQuery = true)
     public String findDepartmentName(String departmentName);
 
     @Query(value = "SELECT * FROM department WHERE department_name LIKE %:departmentName%", nativeQuery = true)
