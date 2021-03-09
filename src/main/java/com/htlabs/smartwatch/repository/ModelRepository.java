@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package com.htlabs.smartwatch.repository;
 
-import com.example.demo.model.Model;
+import com.htlabs.smartwatch.entity.Model;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
