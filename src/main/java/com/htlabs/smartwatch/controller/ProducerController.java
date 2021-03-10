@@ -1,4 +1,4 @@
-package com.htlabs.smartwatch.kafka;
+package com.htlabs.smartwatch.controller;
 
 import com.htlabs.smartwatch.Constants;
 import com.htlabs.smartwatch.entity.Model;
@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,12 +37,14 @@ public class ProducerController {
 	@Autowired
 	private KafkaTemplate<String, Model> kafkaTemplate;
 
+	@Scheduled(cron = "0/20 * * * * ?")
 	@RequestMapping(value = "/sample/{amount}", method = RequestMethod.GET)
-	public void generateMessages(@PathVariable("amount") Integer amount) {
+	public void generateMessages() {
+
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		String string  = dateFormat.format(new Date());
 
-		IntStream.range(0, amount)
+		IntStream.range(1, 2)
 			.peek(i -> this.waitFor(1))
 			.mapToObj(i -> new Model(UUID.randomUUID().toString() , "12AB34" , String.valueOf(i) ,string , string))
 			.forEach(this::sendToKafka);
