@@ -1,10 +1,8 @@
 package com.htlabs.smartwatch.controller;
 
-import com.htlabs.smartwatch.dto.DepartmentDTO;
-import com.htlabs.smartwatch.dto.RegionDetailsDTO;
-import com.htlabs.smartwatch.dto.ResponseDTO;
-import com.htlabs.smartwatch.dto.ScreenDTO;
+import com.htlabs.smartwatch.dto.*;
 import com.htlabs.smartwatch.service.ClientService;
+import com.htlabs.smartwatch.service.PanelService;
 import com.htlabs.smartwatch.service.ScreenService;
 import com.htlabs.smartwatch.utils.SuccessMessages;
 import io.swagger.annotations.ApiOperation;
@@ -28,11 +26,17 @@ public class ScreenController extends BaseController{
     @Autowired
     private ScreenService screenService;
 
+
+    @Autowired
+    private PanelService panelService;
+
     @ApiOperation(value = "We can create a new Screen.")
     @PostMapping(path = "/createScreen", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseDTO createScreen(@RequestParam String screenName ,
-                                    @RequestParam String departmentName) {
-        screenService.createScreen(screenName ,departmentName);
+                                    @RequestParam String departmentName,
+                                    @RequestParam Integer rowNo,
+                                    @RequestParam Integer colNo) {
+        screenService.createScreen(screenName ,departmentName , rowNo, colNo);
         return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.SCREEN_CREATED, screenName));
     }
 
@@ -76,4 +80,16 @@ public class ScreenController extends BaseController{
         return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.CLIENT_REMOVED));
     }
 
+
+    @ApiOperation(value = "Get values of Panel")
+    @GetMapping(path = "/findPanelValue", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public List<PanelDTO> getPanelValue() {
+        return panelService.getPanelValue();
+    }
+
+    @ApiOperation(value = "Get values of panel by screen")
+    @GetMapping(path = "/findPanelsByScreen" , produces = { MediaType.APPLICATION_JSON_VALUE })
+    public List<PanelDTO> getPanelsByScreen(@RequestParam String screenName){
+        return panelService.getPanelsByScreen(screenName);
+    }
 }
