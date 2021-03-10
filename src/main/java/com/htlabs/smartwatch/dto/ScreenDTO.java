@@ -15,6 +15,10 @@ public class ScreenDTO {
 
     private String screenName;
 
+    private Integer rowCount;
+
+    private Integer columnCount;
+
     private DepartmentDTO department;
 
     private Date createdAt;
