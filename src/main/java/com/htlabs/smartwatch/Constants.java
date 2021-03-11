@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.htlabs.smartwatch;
 
 public final class Constants {
 

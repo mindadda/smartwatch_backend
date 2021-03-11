@@ -1,4 +1,4 @@
-package com.example.demo.configuration;
+package com.htlabs.smartwatch.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
