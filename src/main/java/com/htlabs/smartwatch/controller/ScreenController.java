@@ -92,4 +92,12 @@ public class ScreenController extends BaseController{
     public List<PanelDTO> getPanelsByScreen(@RequestParam String screenName){
         return panelService.getPanelsByScreen(screenName);
     }
+
+    @ApiOperation(value = "Attaching Sensor Id with the panel")
+    @PostMapping(path = "/pairSenorIdWithPanel" , produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseDTO pairSenorIdWithPanel(@RequestParam String panelId,
+                                            @RequestParam String sensorId){
+        panelService.pairSenorIdWithPanel(panelId , sensorId);
+        return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.SENSOR_ID_ATTACHED));
+    }
 }

@@ -44,4 +44,6 @@ public class SuccessMessages {
     public static final String SCREEN_UPDATED = "Screen updated Successfully !!";
 
     public static final String CLIENT_REMOVED = "Screen Removed Successfully !!";
+
+    public static final String SENSOR_ID_ATTACHED = "Successfully Attached Sensor Id with Panel !!";
 }

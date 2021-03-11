@@ -10,7 +10,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.concurrent.ListenableFutureCallback;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,9 +43,9 @@ public class ProducerController {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		String string  = dateFormat.format(new Date());
 
-		IntStream.range(1, 2)
+		IntStream.range(1,2)
 			.peek(i -> this.waitFor(1))
-			.mapToObj(i -> new Model(UUID.randomUUID().toString() , "12AB34" , String.valueOf(i) ,string , string))
+			.mapToObj(i -> new Model(UUID.randomUUID().toString() , "12AC34" , String.valueOf(i) ,string , string))
 			.forEach(this::sendToKafka);
 	}
 

@@ -47,4 +47,16 @@ public class PanelServiceImpl implements PanelService {
         List<Panel> panels = panelRepository.findByScreenId(screenId);
         return PanelConverter.getPanelDTOListFromEntityList(panels);
     }
+
+    @Override
+    public void pairSenorIdWithPanel(String panelId , String sensorId) {
+        log.info("Attaching Panel ID with the Panel");
+        Panel panel = panelRepository.findById(panelId).orElse(null);
+        if (panel == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST , ErrorMessages.INVALID_PANEL);
+        }
+
+        panel.setSensorId(sensorId);
+        panelRepository.save(panel);
+    }
 }

@@ -47,5 +47,6 @@ public class ErrorMessages {
 
     public static final String INVALID_SCREEN = "Screen is not present !!";
 
+    public static final String INVALID_PANEL = "Panel is not Present !!";
 
 }
