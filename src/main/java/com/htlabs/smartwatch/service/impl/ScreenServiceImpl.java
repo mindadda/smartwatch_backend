@@ -143,6 +143,7 @@ public class ScreenServiceImpl implements ScreenService {
         if (screenDetails == null){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.INVALID_SCREEN);
         }
+        panelRepository.deletePanelWithScreen(screenId);
         screenRepository.deleteScreen(screenId);
     }
 
