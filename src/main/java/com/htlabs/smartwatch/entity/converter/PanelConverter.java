@@ -2,6 +2,7 @@ package com.htlabs.smartwatch.entity.converter;
 
 import com.google.common.reflect.TypeToken;
 import com.htlabs.smartwatch.dto.PanelDTO;
+import com.htlabs.smartwatch.dto.ScreenDTO;
 import com.htlabs.smartwatch.entity.Panel;
 import org.modelmapper.ModelMapper;
 
@@ -18,5 +19,10 @@ public class PanelConverter {
     public static List<PanelDTO> getPanelDTOListFromEntityList(List<Panel> panels) {
         return new ModelMapper().map(panels, new TypeToken<List<PanelDTO>>() {
         }.getType());
+    }
+
+    public static PanelDTO getPanelDtoFromEntity(Panel panel) {
+        ModelMapper dtoMapper = new ModelMapper();
+        return dtoMapper.map(panel, PanelDTO.class);
     }
 }

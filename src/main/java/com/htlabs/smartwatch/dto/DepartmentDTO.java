@@ -1,5 +1,7 @@
 package com.htlabs.smartwatch.dto;
 
+import com.htlabs.smartwatch.entity.ClientDetails;
+import com.htlabs.smartwatch.entity.Location;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +17,9 @@ public class DepartmentDTO {
 
     private String departmentName;
 
-    private ClientLocationDTO clientLocation;
+    private ClientDTO clientDetails;
+
+    private LocationDTO location;
 
     private Date createdAt;
 

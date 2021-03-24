@@ -31,8 +31,8 @@ public class RegionServiceImpl implements RegionService {
 
 
     @Override
-    public void createRegion(String countryName, String regionName) {
-        String countryId = countryRepository.findByCountryName(countryName);
+    public void createRegion(String countryId, String regionName) {
+//        String countryId = countryRepository.findByCountryName(countryName);
         Country country = countryRepository.findById(countryId).orElse(null);
         if(country == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_COUNTRY);
@@ -54,8 +54,8 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public void updateRegion(String regionId, String countryName, String regionName) {
-        String countryId = countryRepository.findByCountryName(countryName);
+    public void updateRegion(String regionId, String countryId, String regionName) {
+//        String countryId = countryRepository.findByCountryName(countryName);
         Country country = countryRepository.findById(countryId).orElse(null);
         if(country == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_COUNTRY);
@@ -116,9 +116,9 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public List<RegionDetailsDTO> getRegionByCountry(String countryName) {
+    public List<RegionDetailsDTO> getRegionByCountry(String countryId) {
         log.info("Retrieving Region by CountryId ");
-        String countryId = countryRepository.findByCountryName(countryName);
+//        String countryId = countryRepository.findByCountryName(countryName);
         Country country = countryRepository.findById(countryId).orElse(null);
         if(country == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_COUNTRY);

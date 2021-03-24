@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface LocationService {
     
-    public void createLocation(String regionName, String locationName);
+    public void createLocation(String regionId, String locationName);
 
-    public void updateLocation(String locationId,String regionName, String locationName);
+    public void updateLocation(String locationId,String regionId, String locationName);
 
     public List<LocationDTO> getAllLocations();
 
@@ -18,7 +18,7 @@ public interface LocationService {
 
     public void deleteLocation(String locationId);
 
-    public List<LocationDTO> getLocationByRegion(String regionName);
+    public List<LocationDTO> getLocationByRegion(String regionId);
 
 //    public List<LocationDTO> getLocationByCountry(String countryName);
 }

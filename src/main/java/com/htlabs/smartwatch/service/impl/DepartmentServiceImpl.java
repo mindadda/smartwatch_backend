@@ -3,9 +3,7 @@ package com.htlabs.smartwatch.service.impl;
 import com.htlabs.smartwatch.dto.DepartmentDTO;
 import com.htlabs.smartwatch.entity.*;
 import com.htlabs.smartwatch.entity.converter.DepartmentConverter;
-import com.htlabs.smartwatch.entity.converter.LocationConverter;
 import com.htlabs.smartwatch.repository.ClientDetailRepository;
-import com.htlabs.smartwatch.repository.ClientLocationRepository;
 import com.htlabs.smartwatch.repository.DepartmentRepository;
 import com.htlabs.smartwatch.repository.LocationRepository;
 import com.htlabs.smartwatch.service.DepartmentService;
@@ -28,32 +26,23 @@ public class DepartmentServiceImpl implements DepartmentService {
     private ClientDetailRepository clientDetailRepository;
 
     @Autowired
-    private ClientLocationRepository clientLocationRepository;
-
-    @Autowired
     private LocationRepository locationRepository;
 
     @Autowired
     private DepartmentRepository departmentRepository;
 
     @Override
-    public void createDepartment(String clientName , String locationName, String departmentName) {
-        String clientId = clientDetailRepository.findByClientName(clientName);
+    public void createDepartment(String clientId , String locationId, String departmentName) {
+//        String clientId = clientDetailRepository.findByClientName(clientName);
         ClientDetails clientDetails = clientDetailRepository.findById(clientId).orElse(null);
         if (clientDetails == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_CLIENT);
         }
 
-        String locationId = locationRepository.findByLocationName(locationName);
+//        String locationId = locationRepository.findByLocationName(locationName);
         Location location = locationRepository.findById(locationId).orElse(null);
         if (location == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST , ErrorMessages.INVALID_LOCATION);
-        }
-
-        String clientLocationId = createClientLocation(clientId , locationId);
-        ClientLocation clientLocation = clientLocationRepository.findById(clientLocationId).orElse(null);
-        if (clientLocation == null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST , ErrorMessages.INVALID_CLIENT_LOCATION);
         }
 
         String deptName = departmentRepository.findDepartmentName(departmentName);
@@ -61,7 +50,8 @@ public class DepartmentServiceImpl implements DepartmentService {
             log.info("Creating Department {} !" , departmentName);
             String departmentId = UUID.randomUUID().toString();
             Department department = new Department(departmentId , departmentName);
-            department.setClientLocation(clientLocation);
+            department.setClientDetails(clientDetails);
+            department.setLocation(location);
             department.setCreatedAt(new Date());
             department.setUpdatedAt(new Date());
             departmentRepository.save(department);
@@ -71,40 +61,8 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
     }
 
-    private String createClientLocation(String clientId, String locationId) {
-        ClientDetails clientDetails = clientDetailRepository.findById(clientId).orElse(null);
-        if (clientDetails == null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST , ErrorMessages.INVALID_CLIENT);
-        }
-
-        Location location = locationRepository.findById(locationId).orElse(null);
-        if (location == null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST , ErrorMessages.INVALID_LOCATION);
-        }
-
-        String clientLocationId = UUID.randomUUID().toString();
-        ClientLocation clientLocation = new ClientLocation(clientLocationId);
-        clientLocation.setClientDetails(clientDetails);
-        clientLocation.setLocation(location);
-        clientLocation.setCreatedAt(new Date());
-        clientLocation.setUpdatedAt(new Date());
-        clientLocationRepository.save(clientLocation);
-        return clientLocationId;
-    }
-
     @Override
     public void updateDepartment(String departmentId, String departmentName) {
-//        String clientId = clientDetailRepository.findByClientName(clientName);
-//        ClientDetails clientDetails = clientDetailRepository.findById(clientId).orElse(null);
-//        if (clientDetails == null){
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_CLIENT);
-//        }
-//
-//        String locationId = locationRepository.findByLocationName(locationName);
-//        Location location = locationRepository.findById(locationId).orElse(null);
-//        if (location == null){
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST , ErrorMessages.INVALID_LOCATION);
-//        }
 
         Department department = departmentRepository.findById(departmentId).orElse(null);
         if (department == null){
@@ -157,5 +115,23 @@ public class DepartmentServiceImpl implements DepartmentService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.INVALID_DEPARTMENT);
         }
         departmentRepository.deleteDepartment(departmentId);
+    }
+
+    @Override
+    public List<DepartmentDTO> getDepartmentByClientLocation(String clientId , String locationId) {
+//        String clientId = clientDetailRepository.findByClientName(clientName);
+        ClientDetails clientDetails = clientDetailRepository.findById(clientId).orElse(null);
+        if (clientDetails == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_CLIENT);
+        }
+
+//        String locationId = locationRepository.findByLocationName(locationName);
+        Location location = locationRepository.findById(locationId).orElse(null);
+        if (location == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST , ErrorMessages.INVALID_LOCATION);
+        }
+
+        List<Department> departments = departmentRepository.findByClientLocation(clientId , locationId);
+        return DepartmentConverter.getDepartmentDTOListFromEntityList(departments);
     }
 }

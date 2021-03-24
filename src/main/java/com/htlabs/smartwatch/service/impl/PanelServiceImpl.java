@@ -36,9 +36,9 @@ public class PanelServiceImpl implements PanelService {
     }
 
     @Override
-    public List<PanelDTO> getPanelsByScreen(String screenName) {
+    public List<PanelDTO> getPanelsByScreen(String screenId) {
         log.info("Retrieving Panel by screen ");
-        String screenId = screenRepository.findScreenName(screenName);
+//        String screenId = screenRepository.findScreenName(screenName);
         ScreenDetails screenDetails = screenRepository.findById(screenId).orElse(null);
         if(screenDetails == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_SCREEN);
@@ -58,5 +58,12 @@ public class PanelServiceImpl implements PanelService {
 
         panel.setSensorId(sensorId);
         panelRepository.save(panel);
+    }
+
+    @Override
+    public PanelDTO getPanelById(String panelId) {
+        log.info("Retrieving the Panel Details : {}", panelId);
+        Panel panel = panelRepository.findById(panelId).orElse(null);
+        return PanelConverter.getPanelDtoFromEntity(panel);
     }
 }

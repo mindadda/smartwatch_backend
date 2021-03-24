@@ -19,8 +19,12 @@ public class Department extends AuditEntity{
     private String departmentName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_location_id")
-    private ClientLocation clientLocation;
+    @JoinColumn(name = "client_id")
+    private ClientDetails clientDetails;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id")
+    private Location location;
 
     public Department(String departmentId , String departmentName){
         super();

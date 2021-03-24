@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DepartmentService {
     
-    public void createDepartment(String clientName , String locationName, String departmentName);
+    public void createDepartment(String clientId , String locationId, String departmentName);
 
     public void updateDepartment(String departmentId, String departmentName);
 
@@ -17,4 +17,6 @@ public interface DepartmentService {
     public List<DepartmentDTO> getDepartmentByName(String departmentName);
 
     public void deleteDepartment(String departmentId);
+
+    public List<DepartmentDTO> getDepartmentByClientLocation(String clientId , String locationId);
 }

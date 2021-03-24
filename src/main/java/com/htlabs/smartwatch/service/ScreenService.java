@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface ScreenService {
     
-    public void createScreen(String screenName, String departmentName, Integer rowNo, Integer colNo);
+    public void createScreen(String screenName, String departmentId, Integer rowNo, Integer colNo);
 
-    public void updateScreen(String screenId ,String screenName, String departmentName);
+    public void updateScreen(String screenId ,String screenName, String departmentId);
 
     public List<ScreenDTO> getAllScreens();
 
@@ -18,5 +18,5 @@ public interface ScreenService {
 
     public void deleteScreen(String screenId);
 
-    public List<ScreenDTO> getScreenByDepartment(String departmentName);
+    public List<ScreenDTO> getScreenByDepartment(String departmentId);
 }

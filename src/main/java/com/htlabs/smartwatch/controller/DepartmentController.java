@@ -95,10 +95,10 @@ public class DepartmentController extends BaseController {
 
     @ApiOperation(value = "We can create a new Department.")
     @PostMapping(path = "/createDepartment", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseDTO createDepartment(@RequestParam String clientName ,
-                                        @RequestParam String locationName,
+    public ResponseDTO createDepartment(@RequestParam String clientId ,
+                                        @RequestParam String locationId,
                                         @RequestParam String departmentName) {
-        departmentService.createDepartment(clientName ,locationName, departmentName);
+        departmentService.createDepartment(clientId ,locationId, departmentName);
         return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.DEPARTMENT_CREATED, departmentName));
     }
 
@@ -120,6 +120,13 @@ public class DepartmentController extends BaseController {
     @GetMapping(path = "/findDepartmentById", produces = { MediaType.APPLICATION_JSON_VALUE })
     public DepartmentDTO getDepartmentById(@RequestParam String departmentId) {
         return departmentService.getDepartmentById(departmentId);
+    }
+
+    @ApiOperation(value = "We can find details of the Department.")
+    @GetMapping(path = "/findDepartmentByClientLocation", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public List<DepartmentDTO> getDepartmentByClientLocation(@RequestParam String clientId,
+                                                        @RequestParam String locationId) {
+        return departmentService.getDepartmentByClientLocation(clientId , locationId);
     }
 
     @ApiOperation(value = "We can find details of the Department.")

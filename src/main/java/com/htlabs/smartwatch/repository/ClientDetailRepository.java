@@ -25,12 +25,10 @@ public interface ClientDetailRepository extends JpaRepository<ClientDetails,Stri
     public void updateName(String clientId,String clientName , String clientPhone);
 
 
-
     @Modifying
     @Transactional
     @Query(value = "UPDATE client set client_address = :#{#clientAddress} AND client_phone = :#{#clientPhone} where client_id = :#{#clientId}", nativeQuery = true)
     public void updateAddress(String clientId,String clientPhone , String clientAddress );
-
 
 
     @Modifying

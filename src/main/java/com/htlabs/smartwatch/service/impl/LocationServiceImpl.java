@@ -33,8 +33,8 @@ public class LocationServiceImpl implements LocationService {
     private CountryRepository countryRepository;
 
     @Override
-    public void createLocation(String regionName, String locationName) {
-        String regionId = regionDetailRepository.findByRegionName(regionName);
+    public void createLocation(String regionId, String locationName) {
+//        String regionId = regionDetailRepository.findByRegionName(regionName);
         RegionDetails regionDetails = regionDetailRepository.findById(regionId).orElse(null);
         if(regionDetails == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_REGION);
@@ -56,8 +56,8 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public void updateLocation(String locationId, String regionName, String locationName) {
-        String regionId = regionDetailRepository.findByRegionName(regionName);
+    public void updateLocation(String locationId, String regionId, String locationName) {
+//        String regionId = regionDetailRepository.findByRegionName(regionName);
         RegionDetails regionDetails = regionDetailRepository.findById(regionId).orElse(null);
         if(regionDetails == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_REGION);
@@ -118,9 +118,9 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public List<LocationDTO> getLocationByRegion(String regionName) {
+    public List<LocationDTO> getLocationByRegion(String regionId) {
         log.info("Retrieving Location by RegionName ");
-        String regionId = regionDetailRepository.findByRegionName(regionName);
+//        String regionId = regionDetailRepository.findByRegionName(regionName);
         RegionDetails regionDetails = regionDetailRepository.findById(regionId).orElse(null);
         if (regionDetails == null){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.INVALID_REGION);

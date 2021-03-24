@@ -2,6 +2,8 @@ package com.htlabs.smartwatch.utils;
 
 public class SuccessMessages {
 
+    public static final String MESSAGE_CREATED = "Message %s send successfully !!";
+
     private SuccessMessages() {
 	}
 

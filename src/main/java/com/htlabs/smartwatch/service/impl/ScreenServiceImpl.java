@@ -9,7 +9,6 @@ import com.htlabs.smartwatch.repository.PanelRepository;
 import com.htlabs.smartwatch.repository.ScreenRepository;
 import com.htlabs.smartwatch.service.ScreenService;
 import com.htlabs.smartwatch.utils.ErrorMessages;
-import javafx.stage.Screen;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,8 +33,8 @@ public class ScreenServiceImpl implements ScreenService {
     private PanelRepository panelRepository;
 
     @Override
-    public void createScreen(String screenName, String departmentName, Integer rowNo, Integer colNo) {
-        String departmentId = departmentRepository.findByDepartmentName(departmentName);
+    public void createScreen(String screenName, String departmentId, Integer rowNo, Integer colNo) {
+//        String departmentId = departmentRepository.findByDepartmentName(departmentName);
         Department department = departmentRepository.findById(departmentId).orElse(null);
         if(department == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_DEPARTMENT);
@@ -86,8 +85,8 @@ public class ScreenServiceImpl implements ScreenService {
     }
 
     @Override
-    public void updateScreen(String screenId , String screenName, String departmentName) {
-        String departmentId = departmentRepository.findByDepartmentName(departmentName);
+    public void updateScreen(String screenId , String screenName, String departmentId) {
+//        String departmentId = departmentRepository.findByDepartmentName(departmentName);
         Department department = departmentRepository.findById(departmentId).orElse(null);
         if(department == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_DEPARTMENT);
@@ -148,9 +147,9 @@ public class ScreenServiceImpl implements ScreenService {
     }
 
     @Override
-    public List<ScreenDTO> getScreenByDepartment(String departmentName) {
+    public List<ScreenDTO> getScreenByDepartment(String departmentId) {
         log.info("Retrieving Screen by DepartmentId ");
-        String departmentId = departmentRepository.findByDepartmentName(departmentName);
+//        String departmentId = departmentRepository.findByDepartmentName(departmentName);
         Department department = departmentRepository.findById(departmentId).orElse(null);
         if(department == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.INVALID_DEPARTMENT);

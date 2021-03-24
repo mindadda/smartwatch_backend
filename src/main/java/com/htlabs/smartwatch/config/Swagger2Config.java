@@ -28,7 +28,7 @@ public class Swagger2Config {
 
     @Bean
     public Docket api() {
-        ParameterBuilder aParameterBuilder = new ParameterBuilder();
+        ParameterBuilder aParameterBuilder = new ParameterBuilder(); 
         aParameterBuilder.name("X-AUTH-TOKEN") // name of header
                 .modelRef(new ModelRef("string")).parameterType("header") // type - header
                 .defaultValue("").required(false).build();

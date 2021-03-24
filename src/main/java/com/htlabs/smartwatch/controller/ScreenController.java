@@ -33,10 +33,10 @@ public class ScreenController extends BaseController{
     @ApiOperation(value = "We can create a new Screen.")
     @PostMapping(path = "/createScreen", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseDTO createScreen(@RequestParam String screenName ,
-                                    @RequestParam String departmentName,
+                                    @RequestParam String departmentId,
                                     @RequestParam Integer rowNo,
                                     @RequestParam Integer colNo) {
-        screenService.createScreen(screenName ,departmentName , rowNo, colNo);
+        screenService.createScreen(screenName ,departmentId , rowNo, colNo);
         return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.SCREEN_CREATED, screenName));
     }
 
@@ -44,8 +44,8 @@ public class ScreenController extends BaseController{
     @PostMapping(path = "/updateScreen" , produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseDTO updateScreen(@RequestParam String screenId ,
                                     @RequestParam(required = false) String screenName ,
-                                    @RequestParam(required = false) String departmentName){
-        screenService.updateScreen(screenId ,screenName , departmentName);
+                                    @RequestParam(required = false) String departmentId){
+        screenService.updateScreen(screenId ,screenName , departmentId);
         return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.SCREEN_UPDATED, screenName));
     }
 
@@ -63,8 +63,8 @@ public class ScreenController extends BaseController{
 
     @ApiOperation(value = "Fetching screen by screenId")
     @GetMapping(path = "/findScreenByDepartment",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<ScreenDTO> getScreenByDepartment(@RequestParam String departmentName) {
-        return screenService.getScreenByDepartment(departmentName);
+    public List<ScreenDTO> getScreenByDepartment(@RequestParam String departmentId) {
+        return screenService.getScreenByDepartment(departmentId);
     }
 
     @ApiOperation(value = "We can find details of the Screen.")
@@ -89,8 +89,8 @@ public class ScreenController extends BaseController{
 
     @ApiOperation(value = "Get values of panel by screen")
     @GetMapping(path = "/findPanelsByScreen" , produces = { MediaType.APPLICATION_JSON_VALUE })
-    public List<PanelDTO> getPanelsByScreen(@RequestParam String screenName){
-        return panelService.getPanelsByScreen(screenName);
+    public List<PanelDTO> getPanelsByScreen(@RequestParam String screenId){
+        return panelService.getPanelsByScreen(screenId);
     }
 
     @ApiOperation(value = "Attaching Sensor Id with the panel")
@@ -100,4 +100,11 @@ public class ScreenController extends BaseController{
         panelService.pairSenorIdWithPanel(panelId , sensorId);
         return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.SENSOR_ID_ATTACHED));
     }
+
+    @ApiOperation(value = "We can find details of the Panel.")
+    @GetMapping(path = "/findPanelById", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public PanelDTO getPanelById(@RequestParam String panelId) {
+        return panelService.getPanelById(panelId);
+    }
+
 }

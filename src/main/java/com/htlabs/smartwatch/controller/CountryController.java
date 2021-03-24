@@ -120,18 +120,18 @@ public class CountryController extends BaseController{
 
     @ApiOperation(value = "we can create region")
     @PostMapping(path = "/createRegion",produces ={MediaType.APPLICATION_JSON_VALUE} )
-    public ResponseDTO addRegion(@RequestParam String countryName,
+    public ResponseDTO addRegion(@RequestParam String countryId,
                                  @RequestParam String regionName){
-        regionService.createRegion(countryName , regionName);
+        regionService.createRegion(countryId , regionName);
         return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.REGION_CREATED, regionName));
     }
 
     @ApiOperation(value="we can update Region")
     @PostMapping(path = "/updateRegion",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseDTO updateRegion(@RequestParam String regionId,
-                                    @RequestParam String countryName,
+                                    @RequestParam String countryId,
                                     @RequestParam String regionName) {
-        regionService.updateRegion(regionId ,countryName, regionName);
+        regionService.updateRegion(regionId ,countryId, regionName);
         return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.REGION_UPDATED_SUCCESSFULLY));
     }
 
@@ -149,8 +149,8 @@ public class CountryController extends BaseController{
 
     @ApiOperation(value = "fetching region by CountryId")
     @GetMapping(path = "/findRegionByCountry",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<RegionDetailsDTO> getRegionByCountry(@RequestParam String countryName) {
-        return regionService.getRegionByCountry(countryName);
+    public List<RegionDetailsDTO> getRegionByCountry(@RequestParam String countryId) {
+        return regionService.getRegionByCountry(countryId);
     }
 
     @ApiOperation(value = "We can find details of the Region.")
@@ -168,18 +168,18 @@ public class CountryController extends BaseController{
 
     @ApiOperation(value = "we can create location")
     @PostMapping(path = "/createLocation",produces ={MediaType.APPLICATION_JSON_VALUE} )
-    public ResponseDTO addLocation(@RequestParam String regionName,
+    public ResponseDTO addLocation(@RequestParam String regionId,
                                    @RequestParam String locationName){
-        locationService.createLocation(regionName , locationName);
+        locationService.createLocation(regionId , locationName);
         return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.LOCATION_CREATED, locationName));
     }
 
     @ApiOperation(value="we can update Location")
     @PostMapping(path = "/updateLocation",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseDTO updateLocation(@RequestParam String locationId,
-                                      @RequestParam String regionName,
+                                      @RequestParam String regionId,
                                       @RequestParam String locationName) {
-        locationService.updateLocation(locationId ,regionName, locationName);
+        locationService.updateLocation(locationId ,regionId, locationName);
         return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.LOCATION_UPDATED_SUCCESSFULLY));
     }
 
@@ -191,15 +191,9 @@ public class CountryController extends BaseController{
 
     @ApiOperation(value = "fetching location by RegionId")
     @GetMapping(path = "/findLocationByRegion",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<LocationDTO> getLocationByRegion(@RequestParam String regionName) {
-        return locationService.getLocationByRegion(regionName);
+    public List<LocationDTO> getLocationByRegion(@RequestParam String regionId) {
+        return locationService.getLocationByRegion(regionId);
     }
-
-//    @ApiOperation(value = "fetching location by Country")
-//    @GetMapping(path = "/findLocationByCountry",produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public List<LocationDTO> getLocationByCountry(@RequestParam String countryName) {
-//        return locationService.getLocationByCountry(countryName);
-//    }
 
     @ApiOperation(value = "fetching location by LocationId")
     @GetMapping(path = "/findLocationById",produces = {MediaType.APPLICATION_JSON_VALUE})

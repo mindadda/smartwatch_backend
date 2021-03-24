@@ -8,7 +8,10 @@ public interface PanelService {
 
     public List<PanelDTO> getPanelValue();
 
-    public List<PanelDTO> getPanelsByScreen(String screenName);
+    public List<PanelDTO> getPanelsByScreen(String screenId);
 
     public void pairSenorIdWithPanel(String panelId , String sensorId);
+
+    public PanelDTO getPanelById(String panelId);
+
 }

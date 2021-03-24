@@ -25,4 +25,7 @@ public interface DepartmentRepository extends JpaRepository<Department , String>
 
     @Query(value = "SELECT department_id FROM department WHERE department_name= :#{#departmentName}", nativeQuery = true)
     public String findByDepartmentName(String departmentName);
+
+    @Query(value = "SELECT * FROM department WHERE client_id = :#{#clientId} AND location_id = :#{#locationId}" , nativeQuery = true)
+    public List<Department> findByClientLocation(String clientId , String locationId);
 }
