@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface RegionService {
 
-    public void createRegion(String countryId, String regionName);
+    public Integer createRegion(String countryId, String regionName);
 
-    public void updateRegion(String regionId, String countryId, String regionName);
+    public Integer updateRegion(String regionId, String countryId, String regionName);
 
     public List<RegionDetailsDTO> getAllRegions();
 

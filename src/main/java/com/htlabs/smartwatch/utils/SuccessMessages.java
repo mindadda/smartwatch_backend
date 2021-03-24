@@ -9,11 +9,11 @@ public class SuccessMessages {
 
 	public static final String COUNTRY_CREATED = "Country %s Created Successfully !!";
 
-    public static final String COUNTRY_UPDATED = "Country Updated Successfully !!";
+    public static final String COUNTRY_UPDATED = "Country %s Updated Successfully !!";
 
     public static final String COUNTRY_REMOVED = "Country Removed Successfully !!";
 
-    public static final String OPERATOR_UPDATED_SUCCESSFULLY = "Operator updated successfully!";
+    public static final String OPERATOR_UPDATED_SUCCESSFULLY = "Operator %s updated successfully!";
 
     public static final String OPERATOR_REMOVED = "Operator Removed Successfully !!";
 
@@ -21,17 +21,17 @@ public class SuccessMessages {
 
     public static final String REGION_CREATED = "Region %s Created Successfully !!";
 
-    public static final String REGION_UPDATED_SUCCESSFULLY = "Region updated successfully!!" ;
+    public static final String REGION_UPDATED_SUCCESSFULLY = "Region %s updated successfully!!" ;
 
     public static final String REGION_REMOVED = "Region Removed Successfully !!";
 
     public static final String LOCATION_CREATED = "Location %s Created Successfully !!";
 
-    public static final String LOCATION_UPDATED_SUCCESSFULLY = "Location Updated Successfully !!";
+    public static final String LOCATION_UPDATED_SUCCESSFULLY = "Location %s Updated Successfully !!";
 
     public static final String LOCATION_REMOVED = "Location Removed Successfully !!";
 
-    public static final String CLIENT_CREATED = "Client Created Successfully !!";
+    public static final String CLIENT_CREATED = "Client %s Created Successfully !!";
 
     public static final String CLIENT_UPDATED = "Client updated Successfully !!";
 

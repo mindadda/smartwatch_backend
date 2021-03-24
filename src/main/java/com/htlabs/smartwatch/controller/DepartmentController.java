@@ -34,17 +34,18 @@ public class DepartmentController extends BaseController {
 
     @ApiOperation("creating client")
     @PostMapping(path = "/createClient", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseClientDTO createClient(@RequestParam String name,
+    public ResponseDTO createClient(@RequestParam String name,
                                           @RequestParam String phoneNo,
                                           @RequestParam String address) {
-
-        ClientDTO dto=new ClientDTO();
-        dto.setClientName(name);
-        dto.setClientPhone(phoneNo);
-        dto.setClientAddress(address);
-
-        String clientName = clientService.createClient(dto);
-        return new ResponseClientDTO(HttpStatus.OK.value(),String.format(SuccessMessages.CLIENT_CREATED), clientName);
+        Integer status = clientService.createClient(name, phoneNo, address);
+        String message = null;
+        if (status == 200){
+            message = String.format(SuccessMessages.CLIENT_CREATED, name);
+        }
+        else if (status == 401){
+            message = String.format(ErrorMessages.CLIENT_EXIST);
+        }
+        return new ResponseDTO(status, message);
 
     }
 
@@ -55,8 +56,15 @@ public class DepartmentController extends BaseController {
                                            @RequestParam(required = false) String clientPhone,
                                             @RequestParam(required = false) String clientAddress){
 
-        clientService.updateClient(clientId,clientName,clientPhone,clientAddress);
-        return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.CLIENT_UPDATED, clientName));
+        Integer status = clientService.updateClient(clientId,clientName,clientPhone,clientAddress);
+        String message = null;
+        if (status == 200){
+            message = String.format(SuccessMessages.CLIENT_UPDATED, clientName);
+        }
+        else if (status == 401){
+            message = String.format(ErrorMessages.CLIENT_EXIST);
+        }
+        return new ResponseDTO(status, message);
     }
 
 
@@ -98,16 +106,30 @@ public class DepartmentController extends BaseController {
     public ResponseDTO createDepartment(@RequestParam String clientId ,
                                         @RequestParam String locationId,
                                         @RequestParam String departmentName) {
-        departmentService.createDepartment(clientId ,locationId, departmentName);
-        return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.DEPARTMENT_CREATED, departmentName));
+        Integer status = departmentService.createDepartment(clientId ,locationId, departmentName);;
+        String message = null;
+        if (status == 200){
+            message = String.format(SuccessMessages.DEPARTMENT_CREATED, departmentName);
+        }
+        else if (status == 401){
+            message = String.format(ErrorMessages.DEPARTMENT_EXIST);
+        }
+        return new ResponseDTO(status, message);
     }
 
     @ApiOperation(value = "We can update details of the Department.")
     @PostMapping(path = "/updateDepartment" , produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseDTO updateDepartment(@RequestParam String departmentId ,
                                      @RequestParam String departmentName){
-        departmentService.updateDepartment(departmentId , departmentName);
-        return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.DEPARTMENT_UPDATED, departmentName));
+        Integer status = departmentService.updateDepartment(departmentId , departmentName);
+        String message = null;
+        if (status == 200){
+            message = String.format(SuccessMessages.DEPARTMENT_UPDATED, departmentName);
+        }
+        else if (status == 401){
+            message = String.format(ErrorMessages.DEPARTMENT_EXIST);
+        }
+        return new ResponseDTO(status, message);
     }
 
     @ApiOperation(value = "Get details of Department")

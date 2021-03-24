@@ -5,6 +5,7 @@ import com.htlabs.smartwatch.service.CountryService;
 import com.htlabs.smartwatch.service.LocationService;
 import com.htlabs.smartwatch.service.OperatorService;
 import com.htlabs.smartwatch.service.RegionService;
+import com.htlabs.smartwatch.utils.ErrorMessages;
 import com.htlabs.smartwatch.utils.SuccessMessages;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -39,16 +40,30 @@ public class CountryController extends BaseController{
     @ApiOperation(value = "We can create a new Country.")
     @PostMapping(path = "/createCountry", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseDTO createCountry(@RequestParam String countryName ) {
-        countryService.createCountry(countryName);
-        return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.COUNTRY_CREATED, countryName));
+        Integer status = countryService.createCountry(countryName);
+        String message = null;
+        if (status == 200){
+            message = String.format(SuccessMessages.COUNTRY_CREATED, countryName);
+        }
+        else if (status == 401){
+            message = String.format(ErrorMessages.COUNTRY_EXIST);
+        }
+        return new ResponseDTO(status, message);
     }
 
     @ApiOperation(value = "We can update details of the Country.")
     @PostMapping(path = "/updateCountry" , produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseDTO updateCountry(@RequestParam String countryId ,
                                      @RequestParam String countryName){
-        countryService.updateCountry(countryId , countryName);
-        return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.COUNTRY_UPDATED, countryName));
+        Integer status = countryService.updateCountry(countryId , countryName);
+        String message = null;
+        if (status == 200){
+            message = String.format(SuccessMessages.COUNTRY_UPDATED, countryName);
+        }
+        else if (status == 401){
+            message = String.format(ErrorMessages.COUNTRY_EXIST);
+        }
+        return new ResponseDTO(status, message);
     }
 
     @ApiOperation(value = "Get details of Country")
@@ -80,16 +95,31 @@ public class CountryController extends BaseController{
     @ApiOperation(value = "we can create operator")
     @PostMapping(path = "/createOperator",produces ={MediaType.APPLICATION_JSON_VALUE} )
     public ResponseDTO addOperator(@RequestParam String operatorName){
-        operatorService.createOperator(operatorName);
-        return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.OPERATOR_CREATED, operatorName));
+        Integer status = operatorService.createOperator(operatorName);
+        String message = null;
+        if (status == 200){
+            message = String.format(SuccessMessages.OPERATOR_CREATED, operatorName);
+        }
+        else if (status == 401){
+            message = String.format(ErrorMessages.OPERATOR_EXIST);
+        }
+        return new ResponseDTO(status, message);
+
     }
 
     @ApiOperation(value="we can update operator")
     @PostMapping(path = "/updateOperator",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseDTO updateOperator(@RequestParam String operatorId,
                                       @RequestParam String operatorName) {
-        operatorService.updateOperator(operatorId , operatorName);
-        return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.OPERATOR_UPDATED_SUCCESSFULLY));
+        Integer status = operatorService.updateOperator(operatorId , operatorName);
+        String message = null;
+        if (status == 200){
+            message = String.format(SuccessMessages.OPERATOR_UPDATED_SUCCESSFULLY, operatorName);
+        }
+        else if (status == 401){
+            message = String.format(ErrorMessages.OPERATOR_EXIST);
+        }
+        return new ResponseDTO(status, message);
     }
 
 
@@ -122,8 +152,15 @@ public class CountryController extends BaseController{
     @PostMapping(path = "/createRegion",produces ={MediaType.APPLICATION_JSON_VALUE} )
     public ResponseDTO addRegion(@RequestParam String countryId,
                                  @RequestParam String regionName){
-        regionService.createRegion(countryId , regionName);
-        return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.REGION_CREATED, regionName));
+        Integer status = regionService.createRegion(countryId , regionName);
+        String message = null;
+        if (status == 200){
+            message = String.format(SuccessMessages.REGION_CREATED, regionName);
+        }
+        else if (status == 401){
+            message = String.format(ErrorMessages.REGION_EXIST);
+        }
+        return new ResponseDTO(status, message);
     }
 
     @ApiOperation(value="we can update Region")
@@ -131,8 +168,15 @@ public class CountryController extends BaseController{
     public ResponseDTO updateRegion(@RequestParam String regionId,
                                     @RequestParam String countryId,
                                     @RequestParam String regionName) {
-        regionService.updateRegion(regionId ,countryId, regionName);
-        return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.REGION_UPDATED_SUCCESSFULLY));
+        Integer status = regionService.updateRegion(regionId ,countryId, regionName);
+        String message = null;
+        if (status == 200){
+            message = String.format(SuccessMessages.REGION_UPDATED_SUCCESSFULLY, regionName);
+        }
+        else if (status == 401){
+            message = String.format(ErrorMessages.REGION_EXIST);
+        }
+        return new ResponseDTO(status, message);
     }
 
     @ApiOperation(value = "fetching all Regions")
@@ -170,8 +214,16 @@ public class CountryController extends BaseController{
     @PostMapping(path = "/createLocation",produces ={MediaType.APPLICATION_JSON_VALUE} )
     public ResponseDTO addLocation(@RequestParam String regionId,
                                    @RequestParam String locationName){
-        locationService.createLocation(regionId , locationName);
-        return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.LOCATION_CREATED, locationName));
+        Integer status = locationService.createLocation(regionId , locationName);
+        String message = null;
+        if (status == 200){
+            message = String.format(SuccessMessages.LOCATION_CREATED, locationName);
+        }
+        else if (status == 401){
+            message = String.format(ErrorMessages.LOCATION_EXIST);
+        }
+        return new ResponseDTO(status, message);
+
     }
 
     @ApiOperation(value="we can update Location")
@@ -179,8 +231,15 @@ public class CountryController extends BaseController{
     public ResponseDTO updateLocation(@RequestParam String locationId,
                                       @RequestParam String regionId,
                                       @RequestParam String locationName) {
-        locationService.updateLocation(locationId ,regionId, locationName);
-        return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.LOCATION_UPDATED_SUCCESSFULLY));
+        Integer status = locationService.updateLocation(locationId ,regionId, locationName);
+        String message = null;
+        if (status == 200){
+            message = String.format(SuccessMessages.LOCATION_UPDATED_SUCCESSFULLY, locationName);
+        }
+        else if (status == 401){
+            message = String.format(ErrorMessages.LOCATION_EXIST);
+        }
+        return new ResponseDTO(status, message);
     }
 
     @ApiOperation(value = "fetching all Locations")

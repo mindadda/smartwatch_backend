@@ -24,23 +24,28 @@ public class CountryServiceImpl implements CountryService {
     private CountryRepository countryRepository;
 
     @Override
-    public void createCountry(String countryName) {
-        String countryname = countryRepository.findCountryName(countryName);
-        if (countryname == null){
-            log.info("Creating Country:  {}", countryName);
-            String countryId = UUID.randomUUID().toString();
-            Country country = new Country(countryId, countryName);
+    public Integer createCountry(String countryName) {
+        Integer status ;
+            String countryname = countryRepository.findCountryName(countryName);
+            if (countryname == null){
+                log.info("Creating Country:  {}", countryName);
+                String countryId = UUID.randomUUID().toString();
+                Country country = new Country(countryId, countryName);
             country.setCreatedAt(new Date());
             country.setUpdatedAt(new Date());
             countryRepository.save(country);
+            status = HttpStatus.OK.value();
+            return status;
         }
         else{
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.COUNTRY_EXIST);
+            status = HttpStatus.UNAUTHORIZED.value();
+            return status;
         }
     }
 
     @Override
-    public void updateCountry(String countryId, String countryName) {
+    public Integer updateCountry(String countryId, String countryName) {
+        Integer status ;
         Country country = countryRepository.findById(countryId).orElse(null);
         if (country == null){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.INVALID_COUNTRY);
@@ -52,9 +57,12 @@ public class CountryServiceImpl implements CountryService {
                 country.setCountryName(countryName);
                 country.setUpdatedAt(new Date());
                 countryRepository.save(country);
+                status = HttpStatus.OK.value();
+                return status;
             }
             else{
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.COUNTRY_EXIST);
+                status = HttpStatus.UNAUTHORIZED.value();
+                return status;
             }
 
         }

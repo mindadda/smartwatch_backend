@@ -4,6 +4,7 @@ import com.htlabs.smartwatch.dto.*;
 import com.htlabs.smartwatch.service.ClientService;
 import com.htlabs.smartwatch.service.PanelService;
 import com.htlabs.smartwatch.service.ScreenService;
+import com.htlabs.smartwatch.utils.ErrorMessages;
 import com.htlabs.smartwatch.utils.SuccessMessages;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -36,8 +37,15 @@ public class ScreenController extends BaseController{
                                     @RequestParam String departmentId,
                                     @RequestParam Integer rowNo,
                                     @RequestParam Integer colNo) {
-        screenService.createScreen(screenName ,departmentId , rowNo, colNo);
-        return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.SCREEN_CREATED, screenName));
+        Integer status = screenService.createScreen(screenName ,departmentId , rowNo, colNo);
+        String message = null;
+        if (status == 200){
+            message = String.format(SuccessMessages.SCREEN_CREATED, screenName);
+        }
+        else if (status == 401){
+            message = String.format(ErrorMessages.SCREEN_EXIST);
+        }
+        return new ResponseDTO(status, message);
     }
 
     @ApiOperation(value = "We can update details of the Screen.")
@@ -45,8 +53,15 @@ public class ScreenController extends BaseController{
     public ResponseDTO updateScreen(@RequestParam String screenId ,
                                     @RequestParam(required = false) String screenName ,
                                     @RequestParam(required = false) String departmentId){
-        screenService.updateScreen(screenId ,screenName , departmentId);
-        return new ResponseDTO(HttpStatus.OK.value(), String.format(SuccessMessages.SCREEN_UPDATED, screenName));
+        Integer status = screenService.updateScreen(screenId ,screenName , departmentId);
+        String message = null;
+        if (status == 200){
+            message = String.format(SuccessMessages.SCREEN_UPDATED, screenName);
+        }
+        else if (status == 401){
+            message = String.format(ErrorMessages.SCREEN_EXIST);
+        }
+        return new ResponseDTO(status, message);
     }
 
     @ApiOperation(value = "Get details of Screen")

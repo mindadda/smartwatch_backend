@@ -31,7 +31,8 @@ public class RegionServiceImpl implements RegionService {
 
 
     @Override
-    public void createRegion(String countryId, String regionName) {
+    public Integer createRegion(String countryId, String regionName) {
+        Integer status ;
 //        String countryId = countryRepository.findByCountryName(countryName);
         Country country = countryRepository.findById(countryId).orElse(null);
         if(country == null){
@@ -47,14 +48,18 @@ public class RegionServiceImpl implements RegionService {
             regionDetails.setCreatedAt(new Date());
             regionDetails.setUpdatedAt(new Date());
             regionDetailRepository.save(regionDetails);
+            status = HttpStatus.OK.value();
+            return status;
         }
         else{
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.REGION_EXIST);
+            status = HttpStatus.UNAUTHORIZED.value();
+            return status;
         }
     }
 
     @Override
-    public void updateRegion(String regionId, String countryId, String regionName) {
+    public Integer updateRegion(String regionId, String countryId, String regionName) {
+        Integer status;
 //        String countryId = countryRepository.findByCountryName(countryName);
         Country country = countryRepository.findById(countryId).orElse(null);
         if(country == null){
@@ -74,9 +79,12 @@ public class RegionServiceImpl implements RegionService {
                 regionDetails.setCreatedAt(new Date());
                 regionDetails.setUpdatedAt(new Date());
                 regionDetailRepository.save(regionDetails);
+                status = HttpStatus.OK.value();
+                return status;
             }
             else{
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.REGION_EXIST);
+                status = HttpStatus.UNAUTHORIZED.value();
+                return status;
             }
 
         }

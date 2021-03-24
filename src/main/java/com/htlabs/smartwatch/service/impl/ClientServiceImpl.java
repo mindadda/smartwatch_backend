@@ -34,31 +34,29 @@ public class ClientServiceImpl implements ClientService {
 
 
     @Override
-
-    public String createClient(ClientDTO dto){
-
-
-            ClientDetails clientDetails= new ClientDetails();
-
-
-            log.info("Creating Client");
-             if (clientDetailRepository.findByClientPhone(dto.getClientPhone())!=null)
-                throw new ResponseStatusException(HttpStatus.CONFLICT, ErrorMessages.PHONE_ALREADY_EXISTS);
-
-             ClientConverter.getClientDetailsEntityFromDto(dto,clientDetails);
-              clientDetails.setClientId(UUID.randomUUID().toString());
-
-
-        clientDetails.setCreatedAt(new Date());
-        clientDetails.setUpdatedAt(new Date());
+    public Integer createClient(String name, String phoneNo, String address){
+        Integer status ;
+        String clientName = clientDetailRepository.findByClientName(name);
+        if (clientName == null){
+            log.info("Creating Client:  {}", clientName);
+            String clientId = UUID.randomUUID().toString();
+            ClientDetails clientDetails = new ClientDetails(clientId , name , phoneNo , address);
+            clientDetails.setCreatedAt(new Date());
+            clientDetails.setUpdatedAt(new Date());
             clientDetailRepository.save(clientDetails);
-            return clientDetails.getClientName();
-
+            status = HttpStatus.OK.value();
+            return status;
+        }
+        else{
+            status = HttpStatus.UNAUTHORIZED.value();
+            return status;
+        }
     }
 
     @Override
-    public void updateClient(String clientId, String clientName, String clientPhone ,String clientAddress){
+    public Integer updateClient(String clientId, String clientName, String clientPhone ,String clientAddress){
 
+        Integer status ;
         ClientDetails clientDetails = clientDetailRepository.findById(clientId).orElse(null);
         if (clientDetails == null){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.INVALID_CLIENT);
@@ -72,9 +70,12 @@ public class ClientServiceImpl implements ClientService {
                 clientDetails.setClientAddress(clientAddress);
                 clientDetails.setUpdatedAt(new Date());
                 clientDetailRepository.save(clientDetails);
+                status = HttpStatus.OK.value();
+                return status;
             }
             else{
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.COUNTRY_EXIST);
+                status = HttpStatus.UNAUTHORIZED.value();
+                return status;
             }
 
         }

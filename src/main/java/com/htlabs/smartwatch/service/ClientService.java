@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ClientService {
 
-    public String createClient(ClientDTO dto);
+    public Integer createClient(String name, String phoneNo, String address);
 
     public String deleteClient(String clientId);
 
@@ -16,5 +16,6 @@ public interface ClientService {
 
     public List<ClientDTO> getAllClients();
 
-    public void updateClient(String clientId, String clientName, String clientPhone, String clientAddress);
+    public Integer updateClient(String clientId, String clientName, String clientPhone, String clientAddress);
+
 }

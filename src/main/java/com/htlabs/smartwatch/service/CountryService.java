@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface CountryService {
 
-    public void createCountry(String countryName);
+    public Integer createCountry(String countryName);
 
     public List<CountryDTO> getAllCountries();
 
     public CountryDTO getCountryById(String countryId);
 
-    public void updateCountry(String countryId, String countryName);
+    public Integer updateCountry(String countryId, String countryName);
 
     public List<CountryDTO> getCountryByName(String countryName);
 

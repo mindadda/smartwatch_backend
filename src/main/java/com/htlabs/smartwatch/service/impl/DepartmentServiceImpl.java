@@ -32,7 +32,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     private DepartmentRepository departmentRepository;
 
     @Override
-    public void createDepartment(String clientId , String locationId, String departmentName) {
+    public Integer createDepartment(String clientId , String locationId, String departmentName) {
+        Integer status;
 //        String clientId = clientDetailRepository.findByClientName(clientName);
         ClientDetails clientDetails = clientDetailRepository.findById(clientId).orElse(null);
         if (clientDetails == null){
@@ -55,14 +56,18 @@ public class DepartmentServiceImpl implements DepartmentService {
             department.setCreatedAt(new Date());
             department.setUpdatedAt(new Date());
             departmentRepository.save(department);
+            status = HttpStatus.OK.value();
+            return status;
         }
         else{
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.DEPARTMENT_EXIST);
+            status = HttpStatus.UNAUTHORIZED.value();
+            return status;
         }
     }
 
     @Override
-    public void updateDepartment(String departmentId, String departmentName) {
+    public Integer updateDepartment(String departmentId, String departmentName) {
+        Integer status;
 
         Department department = departmentRepository.findById(departmentId).orElse(null);
         if (department == null){
@@ -75,9 +80,12 @@ public class DepartmentServiceImpl implements DepartmentService {
                 department.setDepartmentName(departmentName);
                 department.setUpdatedAt(new Date());
                 departmentRepository.save(department);
+                status = HttpStatus.OK.value();
+                return status;
             }
             else{
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.DEPARTMENT_EXIST);
+                status = HttpStatus.UNAUTHORIZED.value();
+                return status;
             }
 
         }

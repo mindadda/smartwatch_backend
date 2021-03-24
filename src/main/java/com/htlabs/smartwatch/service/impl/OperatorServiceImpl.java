@@ -24,7 +24,8 @@ public class OperatorServiceImpl implements OperatorService {
     private OperatorDetailRepository operatorDetailRepository;
 
     @Override
-    public void createOperator(String operatorName) {
+    public Integer createOperator(String operatorName) {
+        Integer status ;
         String opertorname = operatorDetailRepository.findOperatorName(operatorName);
         if (opertorname == null){
             log.info("Creating Operator:  {}", operatorName);
@@ -33,14 +34,18 @@ public class OperatorServiceImpl implements OperatorService {
             operatorDetails.setCreatedAt(new Date());
             operatorDetails.setUpdatedAt(new Date());
             operatorDetailRepository.save(operatorDetails);
+            status = HttpStatus.OK.value();
+            return status;
         }
         else{
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.OPERATOR_EXIST);
+            status = HttpStatus.UNAUTHORIZED.value();
+            return status;
         }
     }
 
     @Override
-    public void updateOperator(String operatorId, String operatorName) {
+    public Integer updateOperator(String operatorId, String operatorName) {
+        Integer status ;
         OperatorDetails operatorDetails = operatorDetailRepository.findById(operatorId).orElse(null);
         if (operatorDetails == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.INVALID_OPERATOR);
@@ -51,8 +56,12 @@ public class OperatorServiceImpl implements OperatorService {
                 operatorDetails.setOperatorName(operatorName);
                 operatorDetails.setUpdatedAt(new Date());
                 operatorDetailRepository.save(operatorDetails);
-            } else {
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.COUNTRY_EXIST);
+                status = HttpStatus.OK.value();
+                return status;
+            }
+            else {
+                status = HttpStatus.UNAUTHORIZED.value();
+                return status;
             }
 
         }

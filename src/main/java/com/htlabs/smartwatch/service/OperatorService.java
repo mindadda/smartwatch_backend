@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface OperatorService {
 
-    public void createOperator(String operatorName);
+    public Integer createOperator(String operatorName);
 
     public void deleteOperator(String operatorId);
 
@@ -14,7 +14,7 @@ public interface OperatorService {
 
     public OperatorDetailsDTO getOperatorById(String operatorId);
 
-    public void updateOperator(String operatorId, String operatorName);
+    public Integer updateOperator(String operatorId, String operatorName);
 
     public List<OperatorDetailsDTO> getOperatorByName(String operatorName);
 

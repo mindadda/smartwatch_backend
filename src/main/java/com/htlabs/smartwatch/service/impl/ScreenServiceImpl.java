@@ -33,7 +33,8 @@ public class ScreenServiceImpl implements ScreenService {
     private PanelRepository panelRepository;
 
     @Override
-    public void createScreen(String screenName, String departmentId, Integer rowNo, Integer colNo) {
+    public Integer createScreen(String screenName, String departmentId, Integer rowNo, Integer colNo) {
+        Integer status;
 //        String departmentId = departmentRepository.findByDepartmentName(departmentName);
         Department department = departmentRepository.findById(departmentId).orElse(null);
         if(department == null){
@@ -51,9 +52,12 @@ public class ScreenServiceImpl implements ScreenService {
             screenRepository.save(screen);
 
             createPanel(screenId , rowNo , colNo);
+            status = HttpStatus.OK.value();
+            return status;
         }
         else{
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.SCREEN_EXIST);
+            status = HttpStatus.UNAUTHORIZED.value();
+            return status;
         }
 
     }
@@ -85,7 +89,8 @@ public class ScreenServiceImpl implements ScreenService {
     }
 
     @Override
-    public void updateScreen(String screenId , String screenName, String departmentId) {
+    public Integer updateScreen(String screenId , String screenName, String departmentId) {
+        Integer status;
 //        String departmentId = departmentRepository.findByDepartmentName(departmentName);
         Department department = departmentRepository.findById(departmentId).orElse(null);
         if(department == null){
@@ -104,9 +109,12 @@ public class ScreenServiceImpl implements ScreenService {
                 screen.setDepartment(department);
                 screen.setUpdatedAt(new Date());
                 screenRepository.save(screen);
+                status = HttpStatus.OK.value();
+                return status;
             }
             else{
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.SCREEN_EXIST);
+                status = HttpStatus.UNAUTHORIZED.value();
+                return status;
             }
 
         }

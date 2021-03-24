@@ -33,7 +33,8 @@ public class LocationServiceImpl implements LocationService {
     private CountryRepository countryRepository;
 
     @Override
-    public void createLocation(String regionId, String locationName) {
+    public Integer createLocation(String regionId, String locationName) {
+        Integer status;
 //        String regionId = regionDetailRepository.findByRegionName(regionName);
         RegionDetails regionDetails = regionDetailRepository.findById(regionId).orElse(null);
         if(regionDetails == null){
@@ -49,14 +50,18 @@ public class LocationServiceImpl implements LocationService {
             location.setCreatedAt(new Date());
             location.setUpdatedAt(new Date());
             locationRepository.save(location);
+            status = HttpStatus.OK.value();
+            return status;
         }
         else{
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.LOCATION_EXIST);
+            status = HttpStatus.UNAUTHORIZED.value();
+            return status;
         }
     }
 
     @Override
-    public void updateLocation(String locationId, String regionId, String locationName) {
+    public Integer updateLocation(String locationId, String regionId, String locationName) {
+        Integer status;
 //        String regionId = regionDetailRepository.findByRegionName(regionName);
         RegionDetails regionDetails = regionDetailRepository.findById(regionId).orElse(null);
         if(regionDetails == null){
@@ -76,9 +81,12 @@ public class LocationServiceImpl implements LocationService {
                 location.setCreatedAt(new Date());
                 location.setUpdatedAt(new Date());
                 locationRepository.save(location);
+                status = HttpStatus.OK.value();
+                return status;
             }
             else{
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessages.LOCATION_EXIST);
+                status = HttpStatus.UNAUTHORIZED.value();
+                return status;
             }
 
         }

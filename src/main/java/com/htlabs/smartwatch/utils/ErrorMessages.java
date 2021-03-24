@@ -27,6 +27,8 @@ public class ErrorMessages {
 
     public static final String LOCATION_EXIST = "Location Already existed!";
 
+    public static final String CLIENT_EXIST = "Client Already existed!";
+
     public static final String INVALID_OPERATOR = "Operator does not exist!";
 
     public static final String INVALID_REGION = "Region does not exist!";
